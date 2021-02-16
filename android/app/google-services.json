@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1095815469512",
+    "project_id": "happy-pett-app",
+    "storage_bucket": "happy-pett-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095815469512:android:f200a468381fe2a58288fd",
+        "android_client_info": {
+          "package_name": "aya.happy_pet_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095815469512-j1qjt3j3q7kegvbh11aosgkmg4n468f2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6gYfdwoRhW2q0987-OdLWu53h887E42k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095815469512-j1qjt3j3q7kegvbh11aosgkmg4n468f2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
