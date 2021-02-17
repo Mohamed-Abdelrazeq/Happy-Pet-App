@@ -9,7 +9,7 @@ import '../../../Views/Widgets/MyTextField.dart';
 
 import '../../../Constants.dart';
 
-//Comment
+//Commentt
 
 class Register extends StatelessWidget {
   //Vars
