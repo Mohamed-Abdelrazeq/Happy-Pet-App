@@ -8,6 +8,15 @@ import 'package:fluttericon/elusive_icons.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 class PetAdder extends StatelessWidget {
+
+  final TextEditingController petName;
+  final TextEditingController ownerName;
+
+  PetAdder({
+    @required this.ownerName,
+    @required this.petName,
+  });
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -71,11 +80,13 @@ class PetAdder extends StatelessWidget {
                       children: [
                         //Name
                         MyTextField(
+                          myController: petName,
                             height: height,
                             width: width,
                             myWidth: .8,
                             myHeight: .08,
                             obscureBool: false,
+                            noSpace: false,
                             hint: 'Pet Name',
                             myIcon: Icons.pets),
                         SizedBox(
@@ -84,11 +95,13 @@ class PetAdder extends StatelessWidget {
 
                         //Contact
                         MyTextField(
+                            myController: ownerName,
                             height: height,
                             width: width,
                             myWidth: .8,
                             myHeight: .08,
                             obscureBool: false,
+                            noSpace: false,
                             hint: 'Your Name',
                             myIcon: Icons.account_circle),
                         SizedBox(
