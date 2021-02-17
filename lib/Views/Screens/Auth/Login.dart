@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_pet_app/Controllers/CurrentUserProvider.dart';
+import 'package:happy_pet_app/Models/DataClasses/UserModel.dart';
+import 'package:provider/provider.dart';
 import '../../../Constants.dart';
 import '../../../Views/Widgets/MyButton.dart';
 import '../../../Views/Widgets/MyTextField.dart';
@@ -10,7 +14,7 @@ class Login extends StatelessWidget {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   //Methods
-  Flushbar mySnackBar       (BuildContext context,String myText) {
+  Flushbar mySnackBar(BuildContext context,String myText){
     return Flushbar(
       message: myText,
       backgroundColor: cSmithApple,
@@ -24,7 +28,8 @@ class Login extends StatelessWidget {
       duration: Duration(seconds: 3),
     )..show(context);
   }
-  bool     fieldsValidator  (BuildContext context)               {
+
+  bool fieldsValidator(BuildContext context){
     if(_email.text == ''){
       mySnackBar(context, 'Please enter your email');
       return false;
@@ -35,7 +40,7 @@ class Login extends StatelessWidget {
       return true;
     }
   }
-  Future<bool>   loginValidator   (BuildContext context) async   {
+  Future<bool> loginValidator(BuildContext context)async{
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _email.text,
@@ -55,7 +60,18 @@ class Login extends StatelessWidget {
     }
     return true;
   }
-  //todo retrieve user from db
+  Future<void> storeUserData(username,context)async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_email.text)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        Map data = documentSnapshot.data();
+        Provider.of<CurrentUserProvider>(context,listen: false).currentUserSetter(currentUserData: UserModel(username: data['username'], email: data['email'] , phone: data['phone']));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +137,7 @@ class Login extends StatelessWidget {
                 mySnackBar(context, 'Please Wait');
                 if(fieldsValidator(context)){
                   if(await loginValidator(context)){
+                    storeUserData(_email,context);
                     Navigator.pushNamed(context, '/MyHomePage');
                   }
                 }

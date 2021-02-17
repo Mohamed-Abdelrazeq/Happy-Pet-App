@@ -6,13 +6,9 @@ class CurrentUserProvider with ChangeNotifier{
   UserModel currentUser;
 
   void currentUserSetter({
-    @required username,
-    @required email,
-    @required phone,
+    @required currentUserData
   }){
-    currentUser.username = username;
-    currentUser.email = email;
-    currentUser.phone = phone;
+    currentUser = currentUserData;
   }
 
 }

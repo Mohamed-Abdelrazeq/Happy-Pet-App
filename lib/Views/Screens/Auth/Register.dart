@@ -3,13 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_pet_app/Controllers/CurrentUserProvider.dart';
+import 'package:happy_pet_app/Models/DataClasses/UserModel.dart';
 import 'package:provider/provider.dart';
 import '../../../Views/Widgets/MyButton.dart';
 import '../../../Views/Widgets/MyTextField.dart';
 
 import '../../../Constants.dart';
-
-//Commentt
 
 class Register extends StatelessWidget {
   //Vars
@@ -74,7 +73,8 @@ class Register extends StatelessWidget {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return users
-        .add({
+        .doc(_email.text)
+        .set({
       'username': _username.text,
       'email':    _email.text,
       'phone':    _phone.text,
@@ -138,7 +138,7 @@ class Register extends StatelessWidget {
                 myController: _password,
                 height: height,
                 width: width,
-                obscureBool: false,
+                obscureBool: true,
                 noSpace: true,
                 myWidth: .8,
                 myHeight: .1,
@@ -170,7 +170,7 @@ class Register extends StatelessWidget {
                 if(fieldsValidator(context)){
                   if(await registerValidator(context)){
                     await addUser();
-                    Provider.of<CurrentUserProvider>(context).currentUserSetter(username: _username.text, email: _email.text, phone: _phone.text);
+                    Provider.of<CurrentUserProvider>(context,listen: false).currentUserSetter(currentUserData: UserModel(username: _username.text, email: _email.text, phone: _phone.text));
                     Navigator.pushNamed(context, '/MyHomePage');
                   }
                 }
