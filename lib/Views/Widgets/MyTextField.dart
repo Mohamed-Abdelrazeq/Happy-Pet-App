@@ -8,11 +8,12 @@ class MyTextField extends StatelessWidget {
     @required this.width,
     @required this.myWidth,
     @required this.myHeight,
-    @required this.myController,
+    this.myController,
     @required this.hint,
     @required this.myIcon,
     @required this.obscureBool,
     @required this.noSpace,
+    this.onChangeFunction,
   });
 
   final double height;
@@ -24,6 +25,7 @@ class MyTextField extends StatelessWidget {
   final IconData myIcon;
   final bool obscureBool;
   final bool noSpace;
+  final Function onChangeFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +39,14 @@ class MyTextField extends StatelessWidget {
       child: Center(
         child: TextField(
           controller: myController,
-            keyboardType: TextInputType.multiline,
-            obscureText: obscureBool,
-            inputFormatters: noSpace ? [BlacklistingTextInputFormatter(
+          keyboardType: TextInputType.multiline,
+          onChanged: onChangeFunction,
+          obscureText: obscureBool,
+          inputFormatters: noSpace ? [BlacklistingTextInputFormatter(
                 RegExp(" ")
             )] : [],
-            // maxLines: null,
-            cursorColor: Colors.black87,
-            decoration: InputDecoration(
+          cursorColor: Colors.black87,
+          decoration: InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
@@ -57,7 +59,8 @@ class MyTextField extends StatelessWidget {
                 color: cSmithApple,
               ),
               hintText: hint,
-            )),
+            ),
+        ),
       ),
     );
   }

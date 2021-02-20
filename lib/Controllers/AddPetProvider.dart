@@ -5,18 +5,17 @@ import 'package:image_picker/image_picker.dart';
 
 class PetToAddProvider with ChangeNotifier{
 
-  TextEditingController petName   = TextEditingController();
-  TextEditingController ownerName = TextEditingController();
-  TextEditingController about     = TextEditingController();
+  String petName  ;
+  String ownerName;
+  String about    ;
 
-  String gender;
+  String gender = 'male';
+  bool genderBool = false;
   String location;
 
   File imageOne;
   File imageTwo;
   File imageThree;
-
-  bool done = false;
 
   final picker = ImagePicker();
 
@@ -39,10 +38,12 @@ class PetToAddProvider with ChangeNotifier{
   void test(){
     print(imageOne);
     print(imageTwo);
-    // print(imageThree);
-    // print(petName.text);
-    print(ownerName.text);
-    print(about.text);
+    print(imageThree);
+    print(location);
+    print(petName);
+    print(ownerName);
+    print(about);
+    print(gender);
   }
 
   void locationSetter(petLocation){
@@ -50,8 +51,37 @@ class PetToAddProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  void genderSetter(petGender){
-    gender = petGender;
+  void genderSetter(){
+
+    if (genderBool == false){
+      genderBool = true;
+    }else{
+      genderBool = false;
+    }
+
+    print(genderBool);
+
+    if (genderBool == true){
+      gender = 'female';
+    }else{
+      gender = 'male';
+    }
+
+    notifyListeners();
+  }
+
+  void petNameSetter(newPetName){
+    petName = newPetName;
+    notifyListeners();
+  }
+
+  void ownerNameSetter(newOwnerName){
+    ownerName = newOwnerName;
+    notifyListeners();
+  }
+
+  void aboutSetter(newAbout){
+    about = newAbout;
     notifyListeners();
   }
 

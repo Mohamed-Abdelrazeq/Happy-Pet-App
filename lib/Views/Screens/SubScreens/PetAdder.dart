@@ -76,7 +76,6 @@ class PetAdder extends StatelessWidget {
                       children: [
                         //Name
                         MyTextField(
-                          myController: myProvider.petName,
                             height: height,
                             width: width,
                             myWidth: .8,
@@ -84,14 +83,17 @@ class PetAdder extends StatelessWidget {
                             obscureBool: false,
                             noSpace: false,
                             hint: 'Pet Name',
-                            myIcon: Icons.pets),
+                            myIcon: Icons.pets,
+                          onChangeFunction: (v){
+                              myProvider.petNameSetter(v);
+                          },
+                        ),
                         SizedBox(
                           height: height * .02,
                         ),
 
                         //Contact
                         MyTextField(
-                            myController: myProvider.ownerName,
                             height: height,
                             width: width,
                             myWidth: .8,
@@ -99,7 +101,12 @@ class PetAdder extends StatelessWidget {
                             obscureBool: false,
                             noSpace: false,
                             hint: 'Your Name',
-                            myIcon: Icons.account_circle),
+                            myIcon: Icons.account_circle,
+                          onChangeFunction: (v){
+                            myProvider.ownerNameSetter(v);
+                          },
+
+                        ),
                         SizedBox(
                           height: height * .02,
                         ),
@@ -131,9 +138,9 @@ class PetAdder extends StatelessWidget {
                             ),
                             Switch(
                               activeColor: cSmithApple,
-                              value: true,
+                              value: Provider.of<PetToAddProvider>(context).genderBool,
                               onChanged: (value) {
-                                //   TODO
+                                myProvider.genderSetter();
                               },
                             ),
                             SizedBox(
@@ -222,7 +229,7 @@ class PetAdder extends StatelessWidget {
                               '6th of October',
                             ],
                             onChanged: (value) {
-                              print(value);
+                              myProvider.locationSetter(value);
                             },
                             selectedItem: "Alexandria"),
                         SizedBox(
@@ -319,7 +326,6 @@ class PetAdder extends StatelessWidget {
                                   BorderRadius.circular(height * .02)),
                           child: Center(
                             child: TextField(
-                              controller: myProvider.about,
                               keyboardType: TextInputType.multiline,
                               maxLines: 7,
                               cursorColor: Colors.black87,
@@ -333,6 +339,9 @@ class PetAdder extends StatelessWidget {
                                 contentPadding: EdgeInsets.only(
                                     left: 15, bottom: 30, top: 30, right: 15),
                               ),
+                              onChanged: (v){
+                                myProvider.aboutSetter(v);
+                              },
                             ),
                           ),
                         ),
@@ -398,19 +407,6 @@ class PetAdder extends StatelessWidget {
                       ),
                     ),
                   ),
-                  //follow something TODO
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: noopWhite,
-                        boxShadow: [shadow]),
-                    child: Icon(
-                      Icons.add,
-                      color: cSmithApple,
-                      size: height * .04,
-                    ),
-                  )
                 ],
               ),
             ),
