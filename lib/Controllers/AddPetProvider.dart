@@ -11,7 +11,7 @@ class PetToAddProvider with ChangeNotifier{
 
   String gender = 'male';
   bool genderBool = false;
-  String location;
+  String location = 'Alexandria';
 
   File imageOne;
   File imageTwo;

@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_pet_app/Controllers/AddPetProvider.dart';
+import 'package:happy_pet_app/Controllers/CurrentUserProvider.dart';
 import 'package:provider/provider.dart';
 import '../../../Views/Widgets/AddImageCard.dart';
 import '../../../Views/Widgets/MyButton.dart';
@@ -10,6 +15,90 @@ import 'package:fluttericon/elusive_icons.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 class PetAdder extends StatelessWidget {
+
+  Flushbar mySnackBar(BuildContext context,String myText){
+    return Flushbar(
+      message: myText,
+      backgroundColor: cSmithApple,
+      margin: EdgeInsets.all(8),
+      borderRadius: 8,
+      icon: Icon(
+        Icons.info_outline,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: Duration(seconds: 3),
+    )..show(context);
+  }
+
+  bool fieldsValidator(
+      BuildContext context,
+      String petName,
+      String ownerName,
+      String about,
+      File   imageOne,
+      File   imageTwo,
+      File   imageThree,
+      ){
+    if(petName == null){
+      mySnackBar(context, 'Please enter your pet name');
+      return false;
+    }
+    if(ownerName == null){
+      mySnackBar(context, 'Please enter your name');
+      return false;
+    }
+    if(about == null){
+      mySnackBar(context, 'Please enter your about section');
+      return false;
+    }
+    if(imageOne == null){
+      mySnackBar(context, 'Please enter your pet first image');
+      return false;
+    }
+    if(imageTwo == null){
+      mySnackBar(context, 'Please enter your pet second image');
+      return false;
+    }
+    if(imageThree == null){
+      mySnackBar(context, 'Please enter your pet third image');
+      return false;
+    }
+    print('true');
+    return true;
+
+  }
+
+
+  //todo i need to add the images to the firestore then add the links to this func to finish this screen
+  Future<void> addPet(
+      BuildContext context,
+      String petName,
+      String ownerName,
+      String about,
+      String imageOne,
+      String imageTwo,
+      String imageThree,
+      ) async {
+    CollectionReference pets = FirebaseFirestore.instance.collection('pets');
+
+    var userEmail = Provider.of<CurrentUserProvider>(context,listen: false).currentUser.email;
+
+    return pets
+        .doc(userEmail)
+        .set({
+      'petName' : petName,
+      'ownerName' : ownerName,
+      'about' : about,
+      'imageOne' : imageOne,
+      'imageTwo' : imageTwo,
+      'imageThree' : imageThree,
+    })
+        .then((value) => print("Pet Added"))
+        .catchError((error) => print("Failed to add pet: $error"));
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -368,6 +457,7 @@ class PetAdder extends StatelessWidget {
                       myText: 'Done',
                       myFunc: () {
                         myProvider.test();
+                        fieldsValidator(context, myProvider.petName, myProvider.ownerName, myProvider.about, myProvider.imageOne, myProvider.imageTwo, myProvider.imageThree);
                       },
                     ),
                   ),
