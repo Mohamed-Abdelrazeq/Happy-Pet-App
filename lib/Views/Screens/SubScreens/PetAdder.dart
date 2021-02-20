@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:happy_pet_app/Controllers/AddPetProvider.dart';
+import 'package:provider/provider.dart';
 import '../../../Views/Widgets/AddImageCard.dart';
 import '../../../Views/Widgets/MyButton.dart';
 import '../../../Views/Widgets/MyTextField.dart';
@@ -9,18 +11,12 @@ import 'package:dropdown_search/dropdown_search.dart';
 
 class PetAdder extends StatelessWidget {
 
-  final TextEditingController petName;
-  final TextEditingController ownerName;
-
-  PetAdder({
-    @required this.ownerName,
-    @required this.petName,
-  });
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    var myProvider = Provider.of<PetToAddProvider>(context,listen: false);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -80,7 +76,7 @@ class PetAdder extends StatelessWidget {
                       children: [
                         //Name
                         MyTextField(
-                          myController: petName,
+                          myController: myProvider.petName,
                             height: height,
                             width: width,
                             myWidth: .8,
@@ -95,7 +91,7 @@ class PetAdder extends StatelessWidget {
 
                         //Contact
                         MyTextField(
-                            myController: ownerName,
+                            myController: myProvider.ownerName,
                             height: height,
                             width: width,
                             myWidth: .8,
@@ -260,9 +256,30 @@ class PetAdder extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            AddImageCard(height: height),
-                            AddImageCard(height: height),
-                            AddImageCard(height: height),
+
+                            AddImageCard(
+                              height: height,
+                              imageId: 1,
+                              selectImage: ()async{
+                                await myProvider.getImage(1);
+                                },
+                            ),
+
+                            AddImageCard(
+                              height: height,
+                              imageId: 2,
+                              selectImage: ()async {
+                                await myProvider.getImage(2);
+                              },
+                            ),
+
+                            AddImageCard(
+                              height: height,
+                              imageId: 3,
+                              selectImage: ()async{
+                                await myProvider.getImage(3);
+                              },
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -302,6 +319,7 @@ class PetAdder extends StatelessWidget {
                                   BorderRadius.circular(height * .02)),
                           child: Center(
                             child: TextField(
+                              controller: myProvider.about,
                               keyboardType: TextInputType.multiline,
                               maxLines: 7,
                               cursorColor: Colors.black87,
@@ -328,6 +346,8 @@ class PetAdder extends StatelessWidget {
                     height: height * .02,
                   ),
 
+
+                  //Button
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * .2),
                     child: MyButton(
@@ -336,8 +356,10 @@ class PetAdder extends StatelessWidget {
                       horizontalPadding: width*.02,
                       verticalPadding: height*.02,
                       myTextColor: Colors.white,
-                      myText: 'Adopt Me',
-                      myFunc: () {},
+                      myText: 'Done',
+                      myFunc: () {
+                        myProvider.test();
+                      },
                     ),
                   ),
                   SizedBox(

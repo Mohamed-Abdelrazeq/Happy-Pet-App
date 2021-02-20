@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //Screens
+import 'Controllers/AddPetProvider.dart';
 import 'Controllers/CurrentUserProvider.dart';
 import 'Views/FutureReturn/Loading.dart';
 import 'Views/FutureReturn/SomethingWentWrong.dart';
@@ -26,7 +27,7 @@ void main() {
       providers: [
         ChangeNotifierProvider<PageProvider>(create: (_) => PageProvider()),
         ChangeNotifierProvider<CurrentUserProvider>(create: (_) => CurrentUserProvider()),
-
+        ChangeNotifierProvider<PetToAddProvider>(create: (_) => PetToAddProvider()),
       ],
       child: MyApp(),
     ),
